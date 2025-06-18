@@ -17,11 +17,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
 const continentColors = {
-  "Asia": "#f6c7b3",
-  "Europe": "#c3dedd",
+  "Asia": "#e099cc",
+  "Europe": "#8fa3e1",
   "Africa": "#f0e2c3",
-  "North America": "#82b2c0",
-  "South America": "#f2eae0",
+  "North America": "#7469B6",
+  "South America": "#d2d8ec",
   "Oceania": "#8c564b",
 };
 
