@@ -77,7 +77,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     labels.exit()
       .transition(t)
+      .duration(duration/2)
       .attr("x", x(0))
+      .attr("fill-opacity", 0)
       .remove();
 
     const labelsEnter = labels.enter().append("text")
