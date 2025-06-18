@@ -49,13 +49,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     bars.enter().append("rect")
       .attr("x", x(0))
       .attr("y", d => y(d.Country))
-      .attr("width", d => x(d.Oil) - margin.left)
+      .attr("width", d => x(d.Oil) - x(0))
       .attr("height", y.bandwidth())
       .attr("fill", "steelblue")
       .merge(bars)
       .transition(t)
       .attr("y", d => y(d.Country))
-      .attr("width", d => x(d.Oil) - margin.left);
+      .attr("width", d => x(d.Oil) - x(0));
 
     bars.exit().transition(t)
       .attr("width", 0)
