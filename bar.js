@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const width = 800;
   const height = 500;
   const margin = { top: 30, right: 30, bottom: 30, left: 100 };
-  const barHeight = 30;
+  const barHeight = 70;
   const duration = 700;
 
   // Group data by year and sort top 10
@@ -39,6 +39,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     .attr("font-size", "32px")
     .attr("fill", "#333")
     .attr("font-weight", "bold");
+
+  const xAxisGroup = svg.append("g")
+  .attr("class", "x-axis")
+  .attr("transform", `translate(0, ${margin.top + barHeight * 10 + 5})`);
+
+
+
 
   for (const frame of years) {
     const data = frame.data;
@@ -131,6 +138,9 @@ valueLabelsEnter.merge(valueLabels)
     .transition(t)
     .attr("fill-opacity", 0)
     .remove();
+
+    xAxisGroup.transition(t)
+  .call(d3.axisBottom(x).ticks(width / 100).tickFormat(d3.format(",.0f")));
 
 
     await t.end();
