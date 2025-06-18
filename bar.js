@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const width = 1000;
   const height = 850;
-  const margin = { top: 30, right: 150, bottom: 60, left: 100 };
+  const margin = { top: 30, right: 250, bottom: 60, left: 100 };
   const barHeight = (height - margin.top - margin.bottom) / 10;
   const duration = 700;
 
