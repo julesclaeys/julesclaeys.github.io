@@ -15,8 +15,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Create SVG
   const svg = d3.select("body").append("svg")
-    .attr("width", "100%")
-    .attr("height", height);
+  .attr("viewBox", [0, 0, width, height])
+  .attr("width", "100%") // full width
+  .attr("height", height)
+  .attr("preserveAspectRatio", "xMidYMid meet")
+  .attr("style", "display: block; margin: 0 auto; background: white;");
+
 
   const x = d3.scaleLinear().range([margin.left, width - margin.right]);
   const y = d3.scaleBand()
