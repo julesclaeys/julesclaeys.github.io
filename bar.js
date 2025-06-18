@@ -44,9 +44,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   .attr("class", "x-axis")
   .attr("transform", `translate(0, ${margin.top + barHeight * 10 + 5})`);
 
-  x.domain([0, 1]); // initial dummy range so axis has something to show
+x.domain([0, d3.max(years[0].data, d => d.Oil)]);
   xAxisGroup.call(d3.axisBottom(x).ticks(width / 100).tickFormat(d3.format(",.0f")));
-
+   svg.append("text")
+  .attr("class", "x-axis-label")
+  .attr("x", width / 2)
+  .attr("y", margin.top + barHeight * 10 + 35)
+  .attr("text-anchor", "middle")
+  .attr("fill", "#333")
+  .text("Oil Usage (TWh)");
 
   for (const frame of years) {
     const data = frame.data;
@@ -134,13 +140,6 @@ valueLabels.exit()
 
     xAxisGroup.transition(t)
   .call(d3.axisBottom(x).ticks(width / 100).tickFormat(d3.format(",.0f")));
-  svg.append("text")
-  .attr("class", "x-axis-label")
-  .attr("x", width / 2)
-  .attr("y", margin.top + barHeight * 10 + 35)
-  .attr("text-anchor", "middle")
-  .attr("fill", "#333")
-  .text("Oil Usage (TWh)");
 
 
     await t.end();
