@@ -2,9 +2,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   const rawData = await d3.csv("Bar_race.csv", d3.autoType);
 
   const width = 1000;
-  const height = 800;
+  const height = 850;
   const margin = { top: 30, right: 30, bottom: 60, left: 100 };
-  const barHeight = 50;
+  const barHeight = (height - margin.top - margin.bottom) / 10;
   const duration = 700;
 
   // Group data by year and sort top 10
