@@ -3,8 +3,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const width = 1000;
   const height = 800;
-  const margin = { top: 30, right: 30, bottom: 30, left: 100 };
-  const barHeight = 75;
+  const margin = { top: 30, right: 30, bottom: 60, left: 100 };
+  const barHeight = 50;
   const duration = 700;
 
   // Group data by year and sort top 10
