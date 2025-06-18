@@ -1,44 +1,80 @@
-document.addEventListener("DOMContentLoaded", () => {
-  d3.csv("Bar_race.csv", d3.autoType).then(data => {
-    if (!data || data.length === 0) {
-      console.error("No data found in Bar_race.csv");
-      return;
-    }
+document.addEventListener("DOMContentLoaded", async () => {
+  const rawData = await d3.csv("Bar_race.csv", d3.autoType);
 
-    // Assume your data has a structure like [{name: "A", value: 10}, ...]
-    // You might need to adjust keys based on your CSV columns
+  const width = 800;
+  const height = 500;
+  const margin = { top: 30, right: 30, bottom: 30, left: 100 };
+  const barHeight = 30;
+  const duration = 1000; // ms
 
-    const width = 600;
-    const barHeight = 30;
+  // Group data by year
+  const years = Array.from(d3.group(rawData, d => d.Year), ([year, values]) => ({
+    year: +year,
+    data: values.sort((a, b) => d3.descending(a.Oil, b.Oil)).slice(0, 10)
+  }));
 
-    // Create SVG container
-    const svg = d3.select("#chart").append("svg")
-      .attr("width", width)
-      .attr("height", barHeight * data.length);
+  // Create SVG
+  const svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
 
-    // Define scale based on data values
-    const x = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d.Oil)])
-      .range([0, width - 100]);
+  const x = d3.scaleLinear().range([margin.left, width - margin.right]);
+  const y = d3.scaleBand()
+    .range([margin.top, margin.top + barHeight * 10])
+    .padding(0.1);
 
-    // Create bars
-    svg.selectAll("rect")
-      .data(data)
-      .enter()
-      .append("rect")
-      .attr("y", (d, i) => i * barHeight)
-      .attr("width", d => x(d.Oil))
-      .attr("height", barHeight - 5)
-      .attr("fill", "steelblue");
+  const barGroup = svg.append("g");
 
-    // Add text labels
-    svg.selectAll("text")
-      .data(data)
-      .enter()
-      .append("text")
+  const yearLabel = svg.append("text")
+    .attr("x", width - margin.right)
+    .attr("y", height - margin.bottom)
+    .attr("text-anchor", "end")
+    .attr("font-size", "24px")
+    .attr("fill", "#333");
+
+  for (const frame of years) {
+    const data = frame.data;
+    x.domain([0, d3.max(data, d => d.Oil)]);
+    y.domain(data.map(d => d.Country));
+
+    const t = svg.transition().duration(duration);
+
+    const bars = barGroup.selectAll("rect")
+      .data(data, d => d.Country);
+
+    bars.enter().append("rect")
+      .attr("x", x(0))
+      .attr("y", d => y(d.Country))
+      .attr("width", d => x(d.Oil) - margin.left)
+      .attr("height", y.bandwidth())
+      .attr("fill", "steelblue")
+      .merge(bars)
+      .transition(t)
+      .attr("y", d => y(d.Country))
+      .attr("width", d => x(d.Oil) - margin.left);
+
+    bars.exit().transition(t)
+      .attr("width", 0)
+      .remove();
+
+    const labels = barGroup.selectAll("text")
+      .data(data, d => d.Country);
+
+    labels.enter().append("text")
       .attr("x", d => x(d.Oil) + 5)
-      .attr("y", (d, i) => i * barHeight + barHeight / 2)
-      .attr("dy", ".35em")
-      .text(d => d.Country + ": " + d.Oil);
-  });
+      .attr("y", d => y(d.Country) + y.bandwidth() / 2)
+      .attr("dy", "0.35em")
+      .attr("fill", "#000")
+      .text(d => d.Country)
+      .merge(labels)
+      .transition(t)
+      .attr("x", d => x(d.Oil) + 5)
+      .attr("y", d => y(d.Country) + y.bandwidth() / 2);
+
+    labels.exit().transition(t).remove();
+
+    yearLabel.text(frame.year);
+
+    await t.end(); // Wait for transition to finish
+  }
 });
