@@ -51,11 +51,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       .attr("y", d => y(d.Country))
       .attr("width", d => x(d.Oil) - x(0))
       .attr("height", y.bandwidth())
-      .attr("fill", "steelblue")
+      .attr("fill", d => colorScale(d.Country))
       .merge(bars)
       .transition(t)
       .attr("y", d => y(d.Country))
-      .attr("width", d => x(d.Oil) - x(0));
+      .attr("width", d => x(d.Oil) - x(0))
+      ;
 
     bars.exit().transition(t)
       .attr("width", 0)
