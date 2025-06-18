@@ -218,4 +218,6 @@ footer {
   background: white;
   border: 1px solid #ccc;
   padding: 1rem;
+  min-height: 880px; /* 850 SVG height + 2*padding (approx) */
+  box-sizing: border-box; /* includes padding in height */
 }
