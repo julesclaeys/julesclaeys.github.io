@@ -105,39 +105,31 @@ document.addEventListener("DOMContentLoaded", async () => {
     // YEAR LABEL
     yearLabel.text(frame.year);
 
-    // Value labels inside bars
-    const valueLabels = barGroup.selectAll(".value-label")
+const valueLabels = barGroup.selectAll(".value-label")
   .data(data, d => d.Country);
 
-// Remove old labels    
-valueLabels.exit()
-  .transition(t)
-  .attr("fill-opacity", 0)
-  .remove();
-
-// Enter new labels and set initial attributes
+// ENTER
 const valueLabelsEnter = valueLabels.enter().append("text")
   .attr("class", "value-label")
   .attr("fill", "white")
   .attr("font-weight", "bold")
   .attr("font-size", 12)
   .attr("text-anchor", "end")
-  .attr("dy", "0.35em")
-  .attr("x", x(0))  // start at left edge (width 0)
-  .attr("y", d => y(d.Country) + y.bandwidth() / 2)
-  .text(d => `${d.Oil.toFixed(0)} TWh`);
-// Merge and transition to new positions
-valueLabelsEnter.merge(valueLabels)
-  .transition(t)
-  .attr("x", d => x(d.Oil) - 5)  // position inside the bar, near right edge
-  .attr("y", d => y(d.Country) + y.bandwidth() / 2)
-  .text(d => `${d.Oil} TWh`);
+  .attr("dy", "0.35em");
 
-    // Remove old labels    
-    valueLabels.exit()
-    .transition(t)
-    .attr("fill-opacity", 0)
-    .remove();
+// UPDATE + ENTER
+valueLabelsEnter.merge(valueLabels)
+  .text(d => `${d3.format(",.0f")(d.Oil)} TWh`) // Rounds and adds commas
+  .transition(t)
+  .attr("x", d => x(d.Oil) - 5)
+  .attr("y", d => y(d.Country) + y.bandwidth() / 2);
+
+// EXIT
+valueLabels.exit()
+  .transition(t)
+  .attr("fill-opacity", 0)
+  .remove();
+
 
     xAxisGroup.transition(t)
   .call(d3.axisBottom(x).ticks(width / 100).tickFormat(d3.format(",.0f")));
