@@ -68,29 +68,30 @@ const legendGroup = svg.append("g")
 
 const legendItemSize = 20;
 const legendSpacing = 5;
+const legendItemHeight = 25;  // vertical spacing per legend item
 
-  const continents = Array.from(new Set(rawData.map(d => d.Continent)));
+const continents = Array.from(new Set(rawData.map(d => d.Continent)));
 
 legendGroup.selectAll("rect")
   .data(continents)
   .enter()
   .append("rect")
   .attr("x", 0)
-  .attr("y", (d, i) => i * 25)
+  .attr("y", (d, i) => i * legendItemHeight)
   .attr("width", legendItemSize)
   .attr("height", legendItemSize)
   .attr("fill", d => continentColors[d] || "#ccc");
-
 
 legendGroup.selectAll("text")
   .data(continents)
   .enter()
   .append("text")
   .attr("x", legendItemSize + legendSpacing)
-  .attr("y", (d, i) => i * 25 + legendItemSize / 2)
+  .attr("y", (d, i) => i * legendItemHeight + legendItemSize / 2)
   .attr("dy", "0.35em")
   .attr("fill", "#333")
   .text(d => d);
+
 
 const legendItemHeight = 25;  // spacing vertically per item
 
