@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       .attr("width", d => x(d.Oil) - x(0));
 
     // LABELS
-    const labels = barGroup.selectAll("text.label").data(data, d => d.Country);
+    const labels = barGroup.selectAll(".label").data(data, d => d.Country);
 
     labels.exit()
       .transition(t)
