@@ -8,11 +8,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   const duration = 700;
 
   // Group data by year and sort top 10
-const years = Array.from(d3.group(rawData, d => d.Year), ([year, values]) => ({
+const years = Array.from(d3.group(rawData.filter(d => d.Year >= 1900), d => d.Year), ([year, values]) => ({
   year: +year,
   data: values.sort((a, b) => d3.descending(a.Oil, b.Oil)).slice(0, 10)
-}))
-.sort((a, b) => a.year - b.year);
+})).sort((a, b) => a.year - b.year);
+
 
   const allCountries = Array.from(new Set(rawData.map(d => d.Country)));
 
