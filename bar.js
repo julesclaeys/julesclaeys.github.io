@@ -14,9 +14,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   }));
 
   const allCountries = Array.from(new Set(rawData.map(d => d.Country)));
-  const colorScale = d3.scaleOrdinal()
-    .domain(allCountries)
-    .range(d3.schemeCategory10);
+
+
+const continentColors = {
+  "Asia": "#f6c7b3",
+  "Europe": "#c3dedd",
+  "Africa": "#f0e2c3",
+  "North America": "#82b2c0",
+  "South America": "#f2eae0",
+  "Oceania": "#8c564b",
+};
+
 
   const svg = d3.select("#chart").append("svg")
     .attr("viewBox", [0, 0, width, height])
@@ -78,7 +86,7 @@ x.domain([0, d3.max(years[0].data, d => d.Oil)]);
       .attr("y", d => y(d.Country))
       .attr("height", y.bandwidth())
       .attr("width", 0) // start width zero for animation
-      .attr("fill", d => colorScale(d.Continent));
+      .attr("fill", d => continentColors[d.Continent] || "#ccc");
 
     // UPDATE + ENTER merged
     barsEnter.merge(bars)
