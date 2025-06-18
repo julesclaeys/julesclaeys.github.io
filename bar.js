@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const width = 1000;
   const height = 850;
-  const margin = { top: 30, right: 200, bottom: 60, left: 100 };
+  const margin = { top: 30, right: 30, bottom: 60, left: 100 };
   const barHeight = (height - margin.top - margin.bottom) / 10;
   const duration = 700;
 
@@ -64,7 +64,7 @@ x.domain([0, d3.max(years[0].data, d => d.Oil)]);
 
 const legendGroup = svg.append("g")
   .attr("class", "legend")
-  .attr("transform", `translate(${width - margin.right + 100}, ${margin.top})`);
+  .attr("transform", `translate(${width - margin.right + 130}, ${margin.top})`);
 
 const legendItemSize = 20;
 const legendSpacing = 5;
