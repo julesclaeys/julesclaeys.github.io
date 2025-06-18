@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const width = 1000;
   const height = 800;
   const margin = { top: 30, right: 30, bottom: 30, left: 100 };
-  const barHeight = 100;
+  const barHeight = 75;
   const duration = 700;
 
   // Group data by year and sort top 10
@@ -43,6 +43,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   const xAxisGroup = svg.append("g")
   .attr("class", "x-axis")
   .attr("transform", `translate(0, ${margin.top + barHeight * 10 + 5})`);
+
+  x.domain([0, 1]); // initial dummy range so axis has something to show
+  xAxisGroup.call(d3.axisBottom(x).ticks(width / 100).tickFormat(d3.format(",.0f")));
 
 
   for (const frame of years) {
@@ -131,6 +134,13 @@ valueLabels.exit()
 
     xAxisGroup.transition(t)
   .call(d3.axisBottom(x).ticks(width / 100).tickFormat(d3.format(",.0f")));
+  svg.append("text")
+  .attr("class", "x-axis-label")
+  .attr("x", width / 2)
+  .attr("y", margin.top + barHeight * 10 + 35)
+  .attr("text-anchor", "middle")
+  .attr("fill", "#333")
+  .text("Oil Usage (TWh)");
 
 
     await t.end();
