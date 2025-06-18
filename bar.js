@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const rawData = await d3.csv("Bar_race.csv", d3.autoType);
 
-  const width = 800;
-  const height = 500;
+  const width = 1000;
+  const height = 800;
   const margin = { top: 30, right: 30, bottom: 30, left: 100 };
-  const barHeight = 70;
+  const barHeight = 100;
   const duration = 700;
 
   // Group data by year and sort top 10
@@ -43,8 +43,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const xAxisGroup = svg.append("g")
   .attr("class", "x-axis")
   .attr("transform", `translate(0, ${margin.top + barHeight * 10 + 5})`);
-
-
 
 
   for (const frame of years) {
