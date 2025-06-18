@@ -74,8 +74,7 @@ legendGroup.selectAll("rect")
   .data(continents)
   .enter()
   .append("rect")
-  .attr("x", (d, i) => i * 120)  // space items horizontally
-  .attr("y", 0)
+  .attr("transform", `translate(${width - margin.right + 20}, ${margin.top})`)
   .attr("width", legendItemSize)
   .attr("height", legendItemSize)
   .attr("fill", d => continentColors[d] || "#ccc");
@@ -90,6 +89,27 @@ legendGroup.selectAll("text")
   .attr("fill", "#333")
   .text(d => d);
 
+const legendItemHeight = 25;  // spacing vertically per item
+
+legendGroup.selectAll("rect")
+  .data(continents)
+  .enter()
+  .append("rect")
+  .attr("x", 0)
+  .attr("y", (d, i) => i * legendItemHeight)
+  .attr("width", legendItemSize)
+  .attr("height", legendItemSize)
+  .attr("fill", d => continentColors[d] || "#ccc");
+
+legendGroup.selectAll("text")
+  .data(continents)
+  .enter()
+  .append("text")
+  .attr("x", legendItemSize + legendSpacing)
+  .attr("y", (d, i) => i * legendItemHeight + legendItemSize / 2)
+  .attr("dy", "0.35em")
+  .attr("fill", "#333")
+  .text(d => d);
 
   for (const frame of years) {
     const data = frame.data;
@@ -115,7 +135,9 @@ legendGroup.selectAll("text")
       .attr("y", d => y(d.Country))
       .attr("height", y.bandwidth())
       .attr("width", 0) // start width zero for animation
-      .attr("fill", d => continentColors[d.Continent] || "#ccc");
+      .attr("fill", d => continentColors[d.Continent] || "#ccc")
+      .attr("opacity", 0.8)
+      ;
 
     // UPDATE + ENTER merged
     barsEnter.merge(bars)
