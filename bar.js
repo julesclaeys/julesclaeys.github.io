@@ -5,13 +5,20 @@ document.addEventListener("DOMContentLoaded", async () => {
   const height = 500;
   const margin = { top: 30, right: 30, bottom: 30, left: 100 };
   const barHeight = 30;
-  const duration = 250 ;
+  const duration = 500 ;
 
   // Group data by year
   const years = Array.from(d3.group(rawData, d => d.Year), ([year, values]) => ({
     year: +year,
     data: values.sort((a, b) => d3.descending(a.Oil, b.Oil)).slice(0, 10)
   }));
+
+  const allCountries = Array.from(new Set(rawData.map(d => d.Country)));
+
+const colorScale = d3.scaleOrdinal()
+  .domain(allCountries)
+  .range(d3.schemeCategory10);  // or d3.schemeTableau10, or a custom array of colors
+
 
   // Create SVG
   const svg = d3.select("#chart").append("svg")
@@ -62,7 +69,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       .attr("width", 0)
       .remove();
 
-    const labels = barGroup.selectAll("text")
+    const labels = barGroup.selectAll(".label")
       .data(data, d => d.Country);
 
     labels.enter().append("text")
