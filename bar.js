@@ -25,6 +25,36 @@ const continentColors = {
   "Oceania": "#8c564b",
 };
 
+const legendGroup = svg.append("g")
+  .attr("class", "legend")
+  .attr("transform", `translate(${margin.left}, ${margin.top / 2})`);
+
+  const continents = Array.from(new Set(rawData.map(d => d.Continent)));
+const legendColors = continents.map(cont => colorScale(cont));
+
+    const legendItemSize = 20;
+const legendSpacing = 5;
+
+legendGroup.selectAll("rect")
+  .data(continents)
+  .enter()
+  .append("rect")
+  .attr("x", (d, i) => i * 120)  // space items horizontally
+  .attr("y", 0)
+  .attr("width", legendItemSize)
+  .attr("height", legendItemSize)
+  .attr("fill", d => colorScale(d));
+
+legendGroup.selectAll("text")
+  .data(continents)
+  .enter()
+  .append("text")
+  .attr("x", (d, i) => i * 120 + legendItemSize + legendSpacing)
+  .attr("y", legendItemSize / 2)
+  .attr("dy", "0.35em")
+  .attr("fill", "#333")
+  .text(d => d);
+
 
   const svg = d3.select("#chart").append("svg")
     .attr("viewBox", [0, 0, width, height])
