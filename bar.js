@@ -62,9 +62,13 @@ x.domain([0, d3.max(years[0].data, d => d.Oil)]);
   .attr("fill", "#333")
   .text("Oil Usage (TWh)");
 
-  const legendGroup = svg.append("g")
+const legendGroup = svg.append("g")
   .attr("class", "legend")
-  .attr("transform", `translate(${margin.left}, ${margin.top / 2})`);
+  .attr("transform", `translate(${width - margin.right + 20}, ${margin.top})`);
+
+const legendItemSize = 20;
+const legendSpacing = 5;
+const legendItemHeight = 25;  // space between legend items vertically
 
   const continents = Array.from(new Set(rawData.map(d => d.Continent)));
     const legendItemSize = 20;
@@ -74,17 +78,19 @@ legendGroup.selectAll("rect")
   .data(continents)
   .enter()
   .append("rect")
-  .attr("transform", `translate(${width - margin.right + 20}, ${margin.top})`)
+  .attr("x", 0)
+  .attr("y", (d, i) => i * legendItemHeight)
   .attr("width", legendItemSize)
   .attr("height", legendItemSize)
   .attr("fill", d => continentColors[d] || "#ccc");
+
 
 legendGroup.selectAll("text")
   .data(continents)
   .enter()
   .append("text")
-  .attr("x", (d, i) => i * 120 + legendItemSize + legendSpacing)
-  .attr("y", legendItemSize / 2)
+  .attr("x", legendItemSize + legendSpacing)
+  .attr("y", (d, i) => i * legendItemHeight + legendItemSize / 2)
   .attr("dy", "0.35em")
   .attr("fill", "#333")
   .text(d => d);
@@ -143,8 +149,8 @@ legendGroup.selectAll("text")
     barsEnter.merge(bars)
       .transition(t)
       .attr("y", d => y(d.Country))
-      .attr("width", d => x(d.Oil) - x(0));
-
+      .attr("width", d => x(d.Oil) - x(0))
+      .attr("opacity", 0.2);
     // LABELS
     const labels = barGroup.selectAll(".label").data(data, d => d.Country);
 
