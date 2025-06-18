@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const rawData = await d3.csv("Bar_race.csv", d3.autoType);
 
-  const width = "100%";
+  const width = 800;
   const height = 500;
   const margin = { top: 30, right: 30, bottom: 30, left: 100 };
   const barHeight = 30;
-  const duration = 100 ;
+  const duration = 250 ;
 
   // Group data by year
   const years = Array.from(d3.group(rawData, d => d.Year), ([year, values]) => ({
