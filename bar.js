@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const rawData = await d3.csv("Bar_race.csv", d3.autoType);
 
-  const width = 800;
+  const width = "100%";
   const height = 500;
   const margin = { top: 30, right: 30, bottom: 30, left: 100 };
   const barHeight = 30;
