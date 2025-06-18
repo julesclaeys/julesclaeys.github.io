@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const height = 500;
   const margin = { top: 30, right: 30, bottom: 30, left: 100 };
   const barHeight = 30;
-  const duration = 1000; // ms
+  const duration = 250 ;
 
   // Group data by year
   const years = Array.from(d3.group(rawData, d => d.Year), ([year, values]) => ({
