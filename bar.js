@@ -67,8 +67,6 @@ x.domain([0, d3.max(years[0].data, d => d.Oil)]);
   .attr("transform", `translate(${margin.left}, ${margin.top / 2})`);
 
   const continents = Array.from(new Set(rawData.map(d => d.Continent)));
-const legendColors = continents.map(cont => colorScale(cont));
-
     const legendItemSize = 20;
 const legendSpacing = 5;
 
@@ -80,7 +78,7 @@ legendGroup.selectAll("rect")
   .attr("y", 0)
   .attr("width", legendItemSize)
   .attr("height", legendItemSize)
-  .attr("fill", d => colorScale(d));
+  .attr("fill", d => continentColors[d] || "#ccc");
 
 legendGroup.selectAll("text")
   .data(continents)
