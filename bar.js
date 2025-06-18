@@ -118,8 +118,7 @@ const valueLabelsEnter = valueLabels.enter().append("text")
   .attr("dy", "0.35em")
   .attr("x", x(0))  // start at left edge (width 0)
   .attr("y", d => y(d.Country) + y.bandwidth() / 2)
-  .text(d => `${Math.round(d.Oil)} TWh`);
-
+  .text(d => `${d.Oil.toFixed(0)} TWh`);
 // Merge and transition to new positions
 valueLabelsEnter.merge(valueLabels)
   .transition(t)
