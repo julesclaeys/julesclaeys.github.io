@@ -136,7 +136,7 @@ legendGroup.selectAll("text")
       .attr("height", y.bandwidth())
       .attr("width", 0) // start width zero for animation
       .attr("fill", d => continentColors[d.Continent] || "#ccc")
-      .attr("opacity", 0.8)
+      .attr("opacity", 0.2)
       ;
 
     // UPDATE + ENTER merged
