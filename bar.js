@@ -8,10 +8,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   const duration = 700;
 
   // Group data by year and sort top 10
-  const years = Array.from(d3.group(rawData, d => d.Year), ([year, values]) => ({
-    year: +year,
-    data: values.sort((a, b) => d3.descending(a.Oil, b.Oil)).slice(0, 10)
-  }));
+const years = Array.from(d3.group(rawData, d => d.Year), ([year, values]) => ({
+  year: +year,
+  data: values.sort((a, b) => d3.descending(a.Oil, b.Oil)).slice(0, 10)
+}))
+.sort((a, b) => a.year - b.year);
 
   const allCountries = Array.from(new Set(rawData.map(d => d.Country)));
 
@@ -22,7 +23,6 @@ const continentColors = {
   "Africa": "#f0e2c3",
   "North America": "#7469B6",
   "South America": "#d2d8ec",
-  "Oceania": "#8c564b",
 };
 
 
@@ -60,11 +60,11 @@ x.domain([0, d3.max(years[0].data, d => d.Oil)]);
   .attr("y", margin.top + barHeight * 10 + 35)
   .attr("text-anchor", "middle")
   .attr("fill", "#333")
-  .text("Oil Usage (TWh)");
+  .text("Oil Production (TWh)");
 
 const legendGroup = svg.append("g")
   .attr("class", "legend")
-  .attr("transform", `translate(${width - margin.right + 20}, ${margin.top})`);
+  .attr("transform", `translate(${width - margin.right + 60}, ${margin.top})`);
 
 const legendItemSize = 20;
 const legendSpacing = 5;
