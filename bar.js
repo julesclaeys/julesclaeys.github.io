@@ -78,7 +78,7 @@ x.domain([0, d3.max(years[0].data, d => d.Oil)]);
       .attr("y", d => y(d.Country))
       .attr("height", y.bandwidth())
       .attr("width", 0) // start width zero for animation
-      .attr("fill", d => colorScale(d.Country));
+      .attr("fill", d => colorScale(d.Continent));
 
     // UPDATE + ENTER merged
     barsEnter.merge(bars)
