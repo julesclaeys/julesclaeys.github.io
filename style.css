@@ -3,7 +3,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: #c5a3ff;
 }
 
 /* styles.css */
@@ -215,7 +214,8 @@ footer {
 
 #chart {
   width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
+  margin: 2rem auto;
+  background: white;
+  border: 1px solid #ccc;
   padding: 1rem;
 }

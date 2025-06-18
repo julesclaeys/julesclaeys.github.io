@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }));
 
   // Create SVG
-  const svg = d3.select("body").append("svg")
+  const svg = d3.select("#chart").append("svg")
   .attr("viewBox", [0, 0, width, height])
   .attr("width", "100%") // full width
   .attr("height", height)
