@@ -98,6 +98,31 @@ document.addEventListener("DOMContentLoaded", async () => {
     // YEAR LABEL
     yearLabel.text(frame.year);
 
+    // Value labels inside bars
+    const valueLabels = barGroup.selectAll(".value-label")
+    .data(data, d => d.Country);
+
+    // Enter new labels
+    valueLabels.enter().append("text")
+    .attr("class", "value-label")
+    .attr("fill", "white")
+    .attr("font-weight", "bold")
+    .attr("font-size", 12)
+    .attr("text-anchor", "end")
+    .attr("dy", "0.35em")
+    .merge(valueLabels)
+    .transition(t)
+    .attr("x", d => x(d.Oil) - 5) // 5px padding from right edge of bar
+    .attr("y", d => y(d.Country) + y.bandwidth() / 2)
+    .text(d => `${d.Oil} TWh`);  // Change 'units' to your unit (e.g., "barrels", "MWh", etc.)
+
+    // Remove old labels    
+    valueLabels.exit()
+    .transition(t)
+    .attr("fill-opacity", 0)
+    .remove();
+
+
     await t.end();
   }
 });
