@@ -118,7 +118,7 @@ const valueLabelsEnter = valueLabels.enter().append("text")
   .attr("dy", "0.35em")
   .attr("x", x(0))  // start at left edge (width 0)
   .attr("y", d => y(d.Country) + y.bandwidth() / 2)
-  .text(d => `${d.Oil} TWh`);
+  .text(d => `${Math.round(d.Oil)} TWh`);
 
 // Merge and transition to new positions
 valueLabelsEnter.merge(valueLabels)
@@ -126,7 +126,6 @@ valueLabelsEnter.merge(valueLabels)
   .attr("x", d => x(d.Oil) - 5)  // position inside the bar, near right edge
   .attr("y", d => y(d.Country) + y.bandwidth() / 2)
   .text(d => `${d.Oil} TWh`);
-  // Change 'units' to your unit (e.g., "barrels", "MWh", etc.)
 
     // Remove old labels    
     valueLabels.exit()
