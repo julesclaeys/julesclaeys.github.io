@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Minimal Bar Race Example</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+  body { font-family: Arial, sans-serif; background: #f0f0f0; margin: 20px; }
+  #chart { background: white; border: 1px solid #ccc; padding: 10px; }
+  text.label { font-weight: 600; }
+</style>
+</head>
+<body>
+<div id="chart"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  // Sample data: Year, Country, Oil (production)
+  const rawData = [
+    {Year: 2000, Country: "USA", Oil: 500},
+    {Year: 2000, Country: "Russia", Oil: 450},
+    {Year: 2000, Country: "Saudi Arabia", Oil: 400},
+    {Year: 2001, Country: "USA", Oil: 520},
+    {Year: 2001, Country: "Russia", Oil: 460},
+    {Year: 2001, Country: "Saudi Arabia", Oil: 410},
+    {Year: 2002, Country: "USA", Oil: 530},
+    {Year: 2002, Country: "Russia", Oil: 470},
+    {Year: 2002, Country: "Saudi Arabia", Oil: 420},
+  ];
+
+  const width = 700;
+  const height = 300;
+  const margin = { top: 30, right: 30, bottom: 30, left: 100 };
+  const barHeight = 30;
+  const duration = 1000;
+
+  // Group data by year & get top countries (all in this example)
+  const years = Array.from(
+    d3.group(rawData, d => d.Year),
+    ([year, values]) => ({
+      year: +year,
+      data: values.sort((a, b) => d3.descending(a.Oil, b.Oil))
+    })
+  );
+
+  const allCountries = Array.from(new Set(rawData.map(d => d.Country)));
+  const colorScale = d3.scaleOrdinal()
+    .domain(allCountries)
+    .range(d3.schemeCategory10);
+
+  const svg = d3.select("#chart").append("svg")
+    .attr("viewBox", [0, 0, width, height])
+    .attr("width", "100%")
+    .attr("height", height)
+    .style("background", "white");
+
+  const x = d3.scaleLinear().range([margin.left, width - margin.right]);
+  const y = d3.scaleBand()
+    .range([margin.top, margin.top + barHeight * allCountries.length])
+    .padding(0.1);
+
+  const barGroup = svg.append("g");
+  const yearLabel = svg.append("text")
+    .attr("x", width - margin.right)
+    .attr("y", height - margin.bottom)
+    .attr("text-anchor", "end")
+    .attr("font-size", "32px")
+    .attr("fill", "#333")
+    .attr("font-weight", "bold");
+
+  for (const frame of years) {
+    const data = frame.data;
+
+    x.domain([0, d3.max(data, d => d.Oil)]);
+    y.domain(data.map(d => d.Country));
+
+    const t = svg.transition().duration(duration);
+
+    // BARS
+    const bars = barGroup.selectAll("rect").data(data, d => d.Country);
+
+    bars.exit()
+      .transition(t)
+      .attr("width", 0)
+      .remove();
+
+    const barsEnter = bars.enter().append("rect")
+      .attr("x", x(0))
+      .attr("y", d => y(d.Country))
+      .attr("height", y.bandwidth())
+      .attr("width", 0)
+      .attr("fill", d => colorScale(d.Country));
+
+    barsEnter.merge(bars)
+      .transition(t)
+      .attr("y", d => y(d.Country))
+      .attr("width", d => x(d.Oil) - x(0));
+
+    // LABELS
+    const labels = barGroup.selectAll("text.label").data(data, d => d.Country);
+
+    labels.exit()
+      .transition(t)
+      .attr("x", x(0))
+      .remove();
+
+    const labelsEnter = labels.enter().append("text")
+      .attr("class", "label")
+      .attr("x", x(0))
+      .attr("y", d => y(d.Country) + y.bandwidth() / 2)
+      .attr("dy", "0.35em")
+      .attr("fill", "#000")
+      .text(d => d.Country);
+
+    labelsEnter.merge(labels)
+      .transition(t)
+      .attr("x", d => x(d.Oil) + 5)
+      .attr("y", d => y(d.Country) + y.bandwidth() / 2);
+
+    yearLabel.text(frame.year);
+
+    await t.end();
+  }
+});
+</script>
+</body>
+</html>
