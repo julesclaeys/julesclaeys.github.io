@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const height = 500;
   const margin = { top: 30, right: 30, bottom: 30, left: 100 };
   const barHeight = 30;
-  const duration = 250 ;
+  const duration = 100 ;
 
   // Group data by year
   const years = Array.from(d3.group(rawData, d => d.Year), ([year, values]) => ({
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Create SVG
   const svg = d3.select("body").append("svg")
-    .attr("width", width)
+    .attr("width", "100%")
     .attr("height", height);
 
   const x = d3.scaleLinear().range([margin.left, width - margin.right]);
