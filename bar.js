@@ -142,7 +142,7 @@ legendGroup.selectAll("text")
       .attr("height", y.bandwidth())
       .attr("width", 0) // start width zero for animation
       .attr("fill", d => continentColors[d.Continent] || "#ccc")
-      .attr("opacity", 0.2)
+      .attr("opacity", 0.8)
       ;
 
     // UPDATE + ENTER merged
@@ -150,7 +150,7 @@ legendGroup.selectAll("text")
       .transition(t)
       .attr("y", d => y(d.Country))
       .attr("width", d => x(d.Oil) - x(0))
-      .attr("opacity", 0.2);
+      .attr("opacity", 0.8);
     // LABELS
     const labels = barGroup.selectAll(".label").data(data, d => d.Country);
 
